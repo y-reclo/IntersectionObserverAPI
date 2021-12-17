@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        img {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="img-border1">
+        1
+        <img id="main-img" src="[image path]" />
+    </div>
+    <div id="img-border2">
+        2
+        <img id="main-img" src="[image path]" />
+    </div>
+    <div id="img-border3">
+        3
+        <img id="main-img" src="[image path]" />
+    </div>
+    <div id="img-border4">
+        4
+        <img id="main-img" src="" />
+    </div>
+</body>
+<script>
+    window.addEventListener('load', function () {
+        const targetDiv = document.querySelector('#img-border4');
+
+        // 指定要素が感知された場合のcallback
+        const callback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { // 指定した要素が感知されるとtrueを返す
+                    // 必要なアクションを実施
+
+                    // 画像を差し込む
+                    entry.target.querySelector('#main-img').src = '[image path]'; 
+
+                    // 要素を追加
+                    entry.target.append('img-border4が感知されました！'); 
+                    
+                    // 指定要素の監視を止める
+                    observer.unobserve(entry.target); 
+                }
+            });
+        }
+
+        let options = {
+            threshold: 0.8 // 要素がどれぐらい表示されたらcallbackを実行するか指定 0.0~1.0
+        }
+
+        // Intersection Observer APIを呼び出す
+        const observer = new IntersectionObserver(callback, options);
+
+        // 感知したい要素を指定
+        observer.observe(targetDiv);
+    });
+</script>
+</html>
